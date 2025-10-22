@@ -1,8 +1,24 @@
 import os
 
+# Get the directory where this script is located (the project directory)
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Define data directory paths within the project
+DATA_DIR = os.path.join(PROJECT_DIR, "data")
+BACKUP_DIR = os.path.join(DATA_DIR, "backup_data")
+MAIN_CSV_PATH = os.path.join(DATA_DIR, "collatz_data.csv")
+BACKUP_CSV_PATH = os.path.join(BACKUP_DIR, "collatz_data_backup.csv")
+
+def ensure_data_directories():
+    """Create data directories if they don't exist"""
+    os.makedirs(DATA_DIR, exist_ok=True)
+    os.makedirs(BACKUP_DIR, exist_ok=True)
+
 def read_data() -> list[str]:
     try:
-        with open('data/collatz_data.csv', 'r') as file:
+        # Ensure directories exist before reading
+        ensure_data_directories()
+        
+        with open(MAIN_CSV_PATH, 'r') as file:
             lines = file.readlines()
             for line in lines:
                 line.split(',')
@@ -16,9 +32,12 @@ def read_data() -> list[str]:
 
 def save_data(num: int, count: int) -> str:
     try:
-        with open('data/collatz_data.csv', 'a') as file:
+        # Ensure directories exist before saving
+        ensure_data_directories()
+        
+        with open(MAIN_CSV_PATH, 'a') as file:
             file.write(f"{num},{count}\n")
-        with open('data/backup_data/collatz_data_backup.csv', 'a') as backup_file:
+        with open(BACKUP_CSV_PATH, 'a') as backup_file:
             backup_file.write(f"{num},{count}\n")  
         return "Data saved successfully."
     except Exception as e:
