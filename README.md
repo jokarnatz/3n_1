@@ -1,0 +1,1 @@
+This repository contains a python script/program that explores processing of large number arrays. It calculates these numbers as given by the collatz conjecture (aka 3n + 1 conjecture) and saves the processed numbers to a file and backup file if not already processed. No double data.
